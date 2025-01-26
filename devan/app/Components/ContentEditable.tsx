@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Background } from '../Background';
 
 function EditableText({
   initialText = "Click to edit", // Default text
