@@ -1,18 +1,32 @@
 'use client';
-
 import { closestCorners, DndContext, DragEndEvent } from "@dnd-kit/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Column from "./Column";
 import { arrayMove } from "@dnd-kit/sortable";
+import { getUserDetails } from "../actions/data";
+import { log } from "console";
 
-const initialTasks = [
-  { id: 1, title: "task1" },
-  { id: 2, title: "task2" },
-  { id: 3, title: "task3" },
-];
+
+
+
+
 
 export default function Dnd() {
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, setTasks] = useState<any[]>([]);  
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await getUserDetails();
+        console.log(data);
+        
+        setTasks(data); // Update state with fetched data
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchData();
+  }, []);
+  
 
   const getTaskPos = (id: number) => tasks.findIndex(task => task.id === id);
 
