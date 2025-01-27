@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  username  String     @unique
+  password  String
+  email     String     @unique
+  name      String
+  bio       String?
+  avatarUrl String?    // Optional profile image URL
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  portfolios Portfolio[]
+}
+
+model Portfolio {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  userId      Int
+  user        User       @relation(fields: [userId], references: [id])
+  projects    Project[]
+  skills      Skill[]
+  experiences Experience[]
+}
+
+model Project {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String?
+  link        String?    // URL to the project
+  imageUrl    String?    // Optional image representing the project
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  portfolioId Int
+  portfolio   Portfolio  @relation(fields: [portfolioId], references: [id])
+}
+
+model Skill {
+  id          Int        @id @default(autoincrement())
+  name        String
+  proficiency Int        // A rating from 1-100 to indicate skill level
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  portfolioId Int
+  portfolio   Portfolio  @relation(fields: [portfolioId], references: [id])
+}
+
+model Experience {
+  id          Int        @id @default(autoincrement())
+  title       String     // Job title or role
+  company     String     // Company name
+  description String?
+  startDate   DateTime
+  endDate     DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  portfolioId Int
+  portfolio   Portfolio  @relation(fields: [portfolioId], references: [id])
+}

@@ -45,7 +45,7 @@ export default function Dnd() {
   };
 
   return (
-    <div>
+    <div className="bg-black">
       <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCorners}>
         <Column tasks={tasks} />
       </DndContext>
