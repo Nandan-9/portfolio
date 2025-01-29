@@ -2,11 +2,11 @@
 
 
 import Image from "next/image";
-import Terminal from "./Components/Terminal";
 import Dnd from "./Components/Dnd";
 import ContentEditable from "./Components/ContentEditable";
 import { useState } from "react";
 import EditableText from "./Components/ContentEditable";
+import DraggableText from "./Components/Dragable/Dragable";
 
 export default function Home() {
   const handleSave = (newText: string) => {
@@ -15,7 +15,11 @@ export default function Home() {
   return (
     <>
         <Dnd/>
-        <EditableText initialText="Edit me!" onSave={handleSave} />
+        
+        <DraggableText id="Drag-1"><EditableText initialText="Edit me!" onSave={handleSave} /> </DraggableText>
     </>
   );
 }
+
+
+
