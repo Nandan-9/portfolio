@@ -6,3 +6,17 @@ interface Position_Drag{
     y : number;
 }
 
+
+
+
+
+
+
+
+
+
+const position : Position_Drag = {
+    x: 100,
+    y : 100
+}
+
