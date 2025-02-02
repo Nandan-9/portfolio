@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Drag_Positions" ALTER COLUMN "x" SET DEFAULT 0,
+ALTER COLUMN "y" SET DEFAULT 0;

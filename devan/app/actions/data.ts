@@ -1,5 +1,9 @@
 import axios from "axios";
 
+interface Position_Drag{
+  x : number;
+  y : number;
+}
 
 export async function getUserDetails() {
   try {
@@ -12,4 +16,6 @@ export async function getUserDetails() {
   }
 }
 
-
+export async function updatePosition(newX : number, newY : number){
+  
+}

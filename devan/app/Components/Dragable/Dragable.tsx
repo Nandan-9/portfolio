@@ -1,18 +1,23 @@
 import { useState, useEffect, ReactNode, useRef } from "react";
 
+interface Position_Drag {
+  x: number;
+  y: number;
+}
+
 interface DraggableTextProps {
   children: ReactNode;
-  id: string;  // Unique ID for each draggable element
+  id: string; // Unique ID for each draggable element
 }
 
 const DraggableText: React.FC<DraggableTextProps> = ({ children, id }) => {
-  const [position, setPosition] = useState({ x: 100, y: 100 });
+  const [position, setPosition] = useState<Position_Drag>({ x: 100, y: 100 });
   const [isDragging, setIsDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const elementRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.target !== elementRef.current) return;
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!elementRef.current?.contains(e.target as Node)) return;
 
     setIsDragging(true);
     setOffset({
@@ -23,38 +28,37 @@ const DraggableText: React.FC<DraggableTextProps> = ({ children, id }) => {
 
   const handleMouseMove = (e: MouseEvent) => {
     if (!isDragging) return;
-    setPosition({
+    setPosition((prev) => ({
       x: e.clientX - offset.x,
       y: e.clientY - offset.y,
-    });
+    }));
   };
 
-  const handleMouseUp = () => setIsDragging(false);
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
 
-  // Setup and cleanup listeners on the document for multiple elements
+  // Setup and cleanup event listeners
   useEffect(() => {
     if (isDragging) {
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
-    } else {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
     }
 
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isDragging]);
+  }, [isDragging, offset]);
 
   return (
     <div
       ref={elementRef}
-      id={id}  // Unique ID for each element
+      id={id} // Unique ID for each element
       style={{
         position: "absolute",
-        left: position.x,
-        top: position.y,
+        left: `${position.x}px`,
+        top: `${position.y}px`,
         cursor: isDragging ? "grabbing" : "grab",
         fontSize: "20px",
         fontWeight: "bold",
@@ -66,8 +70,5 @@ const DraggableText: React.FC<DraggableTextProps> = ({ children, id }) => {
     </div>
   );
 };
-
-// Parent Component to manage multiple DraggableText elements
-
 
 export default DraggableText;

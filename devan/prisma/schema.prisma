@@ -73,3 +73,10 @@ model Experience {
   portfolioId Int
   portfolio   Portfolio  @relation(fields: [portfolioId], references: [id])
 }
+
+model Drag_Positions {
+  id          Int        @id @default(autoincrement())
+  x Int @default(0)
+  y Int @default(0)
+
+}

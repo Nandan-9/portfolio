@@ -14,7 +14,7 @@ export default function Home() {
   };
   return (
     <>
-        <Dnd/>
+    <DraggableText id="Drag-2"><Dnd/></DraggableText>
         
         <DraggableText id="Drag-1"><EditableText initialText="Edit me!" onSave={handleSave} /> </DraggableText>
     </>
