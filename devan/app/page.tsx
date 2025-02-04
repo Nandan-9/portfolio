@@ -7,6 +7,7 @@ import ContentEditable from "./Components/ContentEditable";
 import { useState } from "react";
 import EditableText from "./Components/ContentEditable";
 import DraggableText from "./Components/Dragable/Dragable";
+import Dashboard from "./(pages)/Dashboard";
 
 export default function Home() {
   const handleSave = (newText: string) => {
@@ -14,9 +15,7 @@ export default function Home() {
   };
   return (
     <>
-    <DraggableText id="Drag-2"><Dnd/></DraggableText>
-        
-        <DraggableText id="Drag-1"><EditableText initialText="Edit me!" onSave={handleSave} /> </DraggableText>
+    <Dashboard/>
     </>
   );
 }
